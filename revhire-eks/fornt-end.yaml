@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: revhire-front
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: revhire-front
+  template:
+    metadata:
+      labels:
+        app : revhire-front
+    spec:
+      containers:
+        - name: revhire-front
+          image: abinash8/myrepo:lts
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: revhire-job-service-frontend
+  labels:
+    app: revhire-front
+spec:
+  selector:
+    app: revhire-front
+  ports:
+    - protocol: 'TCP'
+      port: 8000
+      targetPort: 80
+  type: LoadBalancer
+
+
